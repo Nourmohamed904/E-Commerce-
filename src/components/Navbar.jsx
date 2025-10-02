@@ -1,0 +1,256 @@
+import React from 'react'
+import { useState ,useRef} from 'react';
+import styled from 'styled-components'
+import SearchIcon from '@mui/icons-material/Search';
+import Badge from '@mui/material/Badge';
+import ShoppingCartOutlined from '@mui/icons-material/ShoppingCartOutlined';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import PersonOutline from '@mui/icons-material/PersonOutline';
+import MenuIcon from '@mui/icons-material/Menu';
+
+const Container=styled.div`
+height:60px;
+box-shadow:0 2px 8px rgba(0,0,0,0.9);
+background-color:#20263E;
+color:white;
+position:sticky;
+top:0;
+z-index:1000;
+`
+const Wrapper=styled.div`
+padding:10px 20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+`
+const Left=styled.div`
+flex:1;
+display:flex;
+align-items:center;
+gap:50px;
+`
+
+const SearchContainer=styled.div`
+border:0.5px solid lightgray;
+display:flex;
+align-items:center;
+padding:5px;
+border-radius: 20px;
+background: #f9f9f9;
+transition:box-shadow 180ms ease,width 240ms ease;
+&:focus-within {
+    box-shadow: 0 0 8px rgba(0,0,0,0.15);
+}
+@media(max-width:830px){
+    width:${props=>(props.$focused?"200px":"140px")};
+} 
+`
+const Input=styled.input`
+border:none;
+outline:none;
+background:transparent;
+padding:5px;
+width:100%;
+font-size:15px;
+`
+
+const Logo=styled.h1`
+font-weight:bold;
+font-size:28px;
+`
+const Right=styled.div`
+flex:1;
+display:flex;
+align-items:center;
+justify-content:flex-end;
+`
+const DesktopMenu=styled.nav`
+display:flex;
+align-items:center;
+@media(max-width:830px){
+    display:none;
+}
+`
+const MenuItem=styled.div`
+background:transparent;
+font-size:14px;
+cursor:pointer;
+margin-left:25px;
+position:relative;
+padding-left: 15px;
+&::before {
+    content: ${props=>(props.$isMobile? " ":"'|'")};
+    position: absolute;
+    left: 0;
+    color: white; 
+}
+&:first-child::before {
+    content: "";
+}
+transition:transform 160ms ease,color 160ms ease,background 160ms ease;&:hover{
+    color:#0077ff;
+    transform:translateY(-2px);
+}
+`
+const MenuIcons=styled.div`
+background:transparent;
+font-size:14px;
+cursor:pointer;
+margin-left:25px;
+`
+const MobileIcon=styled.button`
+display: none;
+background: transparent;
+border: none;
+color:white;
+cursor: pointer;
+@media (max-width: 830px) {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+}
+`
+const MobileMenu=styled.aside`
+position: fixed;
+top: 0;
+right: 0;
+height: 100vh;
+width: 280px;
+background: #fff;
+box-shadow: -12px 0 30px rgba(10, 10, 10, 0.08);
+transform: translateX(${props => (props.open ? '0' : '100%')});
+transition: transform 500ms cubic-bezier(.2,.9,.2,1);
+padding: 20px;
+z-index: 1200;
+display: flex;
+flex-direction: column;
+gap: 16px;
+`
+const MobileOverlay = styled.div`
+display: ${props => (props.open ? 'block' : 'none')};
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.36);
+z-index: 1100;
+`;
+
+const MobileMenuTop = styled.div`
+display: flex;
+align-items: center;
+justify-content: space-between;
+color:black;
+`;
+
+const MobileMenuList = styled.div`
+display: flex;
+flex-direction: column;
+gap: 10px;
+margin-top: 6px;
+color:black;
+`;
+
+const Divider = styled.hr`
+border: none;
+height: 1px;
+background: #c8c1c1aa;
+margin: 8px 0;
+`;
+const Navbar = () => {
+    const [open, setOpen] = useState(false);
+    const [searchFocused, setSearchFocused] = useState(false);
+    const desktopinputRef=useRef(null);
+    const asideinputRef=useRef(null);
+    const handleIconClick=(target)=>{
+        if(target==="desktop" && desktopinputRef.current){
+            desktopinputRef.current.focus();
+        }
+        if(target==="aside" && asideinputRef.current){
+            asideinputRef.current.focus();
+        }
+    }
+    return (
+    <Container>
+    <Wrapper>
+        <Left>
+        <Logo>Spark</Logo>
+        <SearchContainer 
+        $focused={searchFocused}>
+        <Input
+            ref={desktopinputRef}
+            placeholder='Search for products...'
+            onFocus={()=>setSearchFocused(true)}
+            onBlur={()=>setSearchFocused(false)}/>
+        <SearchIcon  style={{ color:"black" , cursor: "pointer" }} 
+            onClick={()=>handleIconClick("desktop")}/>
+        </SearchContainer>
+        </Left>
+        <Right>
+        <DesktopMenu>
+        <MenuItem>Home</MenuItem>
+        <MenuItem>Shop</MenuItem>
+        <MenuItem>About</MenuItem>
+        <MenuItem>Contact</MenuItem>
+            <MenuItem>REGISTER</MenuItem>
+            <MenuItem>SIGNIN</MenuItem>
+            <MenuIcons>
+            <Badge color="error" badgeContent={4}>
+            <FavoriteBorder sx={{transition:"color 0.3s ease, transform 0.2s ease",
+            "&:hover":{color:"red",transform: "scale(1.1)"}}}/>
+            </Badge>
+            </MenuIcons>
+            <MenuIcons>
+                <Badge color="primary" badgeContent={3}>
+                    <ShoppingCartOutlined sx={{transition:"color 0.3s ease, transform 0.2s ease",
+            "&:hover":{color:"blue",transform: "scale(1.1)"}}}/>
+                </Badge>
+            </MenuIcons>
+            </DesktopMenu>
+            <MobileIcon onClick={() => setOpen(true)}>
+            <MenuIcon />
+            </MobileIcon>
+        </Right>
+    </Wrapper>
+    <MobileOverlay open={open} onClick={() => setOpen(false)} />
+
+
+<MobileMenu open={open} >
+<MobileMenuTop>
+<Logo>Spark</Logo>
+</MobileMenuTop>
+
+<SearchContainer $focused={searchFocused}>
+<Input
+ref={asideinputRef}
+placeholder="Search for products"
+onFocus={() => setSearchFocused(true)}
+onBlur={() => setSearchFocused(false)}
+/>
+<SearchIcon style={{ color:"black" ,cursor: "pointer" }} 
+            onClick={()=>handleIconClick("aside")} />
+</SearchContainer>
+
+<Divider />
+
+<MobileMenuList>
+<MenuItem $isMobile onClick={() => setOpen(false)}>Home</MenuItem>
+<MenuItem $isMobile onClick={() => setOpen(false)}>Shop</MenuItem>
+<MenuItem $isMobile onClick={() => setOpen(false)}>About</MenuItem>
+<MenuItem $isMobile onClick={() => setOpen(false)}>Contact</MenuItem>
+<Divider />
+<MenuItem $isMobile onClick={() => setOpen(false)}>Register</MenuItem>
+<MenuItem $isMobile onClick={() => setOpen(false)}>SignIn</MenuItem>
+<MenuItem $isMobile onClick={() => setOpen(false)}>
+<Badge>
+<ShoppingCartOutlined />
+</Badge>
+<span style={{ marginLeft: 10 }}>Cart</span>
+</MenuItem>
+</MobileMenuList>
+
+</MobileMenu>
+</Container>
+)
+}
+
+export default Navbar
