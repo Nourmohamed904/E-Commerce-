@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import { useState ,useRef} from 'react';
 import styled from 'styled-components'
 import SearchIcon from '@mui/icons-material/Search';
@@ -191,8 +192,12 @@ const Navbar = () => {
         <MenuItem>Shop</MenuItem>
         <MenuItem>About</MenuItem>
         <MenuItem>Contact</MenuItem>
-            <MenuItem>REGISTER</MenuItem>
-            <MenuItem>SIGNIN</MenuItem>
+            <MenuItem>
+                <Link to="/register" style={{color:"inherit", textDecoration:"none"}}>REGISTER</Link>
+            </MenuItem>
+            <MenuItem>
+                <Link to="/signin" style={{ color: "inherit", textDecoration: "none" }}>SIGNIN</Link>
+            </MenuItem>
             <MenuIcons>
             <Badge color="error" badgeContent={4}>
             <FavoriteBorder sx={{transition:"color 0.3s ease, transform 0.2s ease",
@@ -238,8 +243,12 @@ onBlur={() => setSearchFocused(false)}
 <MenuItem $isMobile onClick={() => setOpen(false)}>About</MenuItem>
 <MenuItem $isMobile onClick={() => setOpen(false)}>Contact</MenuItem>
 <Divider />
-<MenuItem $isMobile onClick={() => setOpen(false)}>Register</MenuItem>
-<MenuItem $isMobile onClick={() => setOpen(false)}>SignIn</MenuItem>
+<MenuItem $isMobile onClick={() => setOpen(false)}>
+    <Link to="/register" style={{ color: "inherit", textDecoration: "none" }}>Register</Link>
+</MenuItem>
+<MenuItem $isMobile onClick={() => setOpen(false)}>
+    <Link to="/signin" style={{ color: "inherit", textDecoration: "none" }}>SignIn</Link>
+</MenuItem>
 <MenuItem $isMobile onClick={() => setOpen(false)}>
 <Badge>
 <ShoppingCartOutlined />
