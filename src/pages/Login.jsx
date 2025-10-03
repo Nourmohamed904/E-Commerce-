@@ -1,6 +1,7 @@
 import styled from "styled-components"
-import { Link } from "react-router-dom"
+import { Link,useNavigate } from "react-router-dom"
 import Swal from "sweetalert2"
+import{useState,useRef} from "react"
 
 const Container = styled.div`
   width: 100vw;
@@ -51,9 +52,11 @@ const Input = styled.input`
   }
 `
 
-const Button = styled.button`
+const Button = styled(Link)`
   width: 50%;
   padding: 14px;
+  text-decoration:none;
+  text-align:center;
   border: none;
   border-radius: 8px;
   background: linear-gradient(90deg, teal, #008080cc);
@@ -89,15 +92,88 @@ const ExtraLinks = styled.div`
 `
 
 const Login = () => {
+  const emailRef=useRef(null);
+  const passwordRef=useRef(null);
+
+  const [formData,SetFormData]=useState({
+    email:"",
+    password:""
+
+  });
+
+  const navigate=useNavigate();
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const validateField=(field,value)=>{
+    switch(field){
+      case "email":
+        if(!emailRegex.test(value)){
+          Swal.fire("Error", "Invalid email format!", "error");
+          return false;
+        }
+        return true;
+      case "password":
+        if (value.length < 9) {
+          Swal.fire("Error", "Password must be at least 9 characters!", "error");
+          return false;
+        }
+        return true;
+      default:
+        return true;
+    }
+  };
+
+  const handleKeyDown = (e, field, nextRef) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const isValid = validateField(field, formData[field]);
+      if (isValid) {
+        if (nextRef && nextRef.current) {
+          nextRef.current.focus();
+        } else {
+          handleSubmit(e);
+        }
+      }
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { email, password } = formData;
+
+    if (
+      !validateField("email", email) ||
+      !validateField("password", password)
+    ) {return;}
+
+    Swal.fire("Success", "Logged in successfully!", "success").then(() => {
+      navigate("/");
+    });
+  };
+
   return (
     <Container>
       <Wrapper>
         <Title>SIGN IN</Title>
-        <Form>
-          <Input type="email" placeholder="Email" />
-          <Input type="password" placeholder="Password" />
-          <Button>LOGIN</Button>
-
+        <Form onSubmit={handleSubmit}>
+          <Input
+            ref={emailRef}
+            type="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={(e) =>SetFormData({ ...formData, email: e.target.value })}
+            onKeyDown={(e) => handleKeyDown(e, "email", passwordRef)}
+          />
+          <Input
+            ref={passwordRef}
+            type="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={(e) =>SetFormData({ ...formData, password: e.target.value })}
+            onKeyDown={(e) => handleKeyDown(e, "password", null)}
+          />
+          <Button to="/">LOGIN</Button>
           <ExtraLinks>
             <Link to="/register">Create a new account</Link>
           </ExtraLinks>
@@ -106,5 +182,4 @@ const Login = () => {
     </Container>
   )
 }
-
 export default Login
