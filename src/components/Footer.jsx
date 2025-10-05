@@ -41,7 +41,7 @@ const SocialIcon = styled.div`
   justify-content: center;
   margin-right: 20px;
   cursor:pointer;
-   &:hover {
+  &:hover {
     transform: scale(1.1);
     opacity: 0.8;
   }
@@ -77,7 +77,7 @@ const ContactItem = styled.div`
   margin-bottom: 20px;
   display: flex;
   align-items: center;
-   &:hover {
+  &:hover {
     color: #fff;
     text-decoration: underline;
     cursor: pointer;

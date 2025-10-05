@@ -3,6 +3,8 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import {Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../CartContext";
 
 const Info=styled.div`
 opacity:0;
@@ -55,15 +57,20 @@ color:black;
 }
 `
 const Product = ({item}) => {
+    const {addToCart}=useCart();
+    const navigate=useNavigate();
+
+    const handleCartClick=()=>{
+        addToCart(item);
+        navigate("/cart");
+    }
     return (
     <Container>
     <Image src={item.image} alt={item.title}/>
     <Info>
-    <Link to={`/product/${item.id}`}>
-        <Icon>
+        <Icon onClick={handleCartClick}>
         <ShoppingCartOutlinedIcon/>
         </Icon>
-    </Link>
     <Link to={`/product/${item.id}`}>
         <Icon>
         <SearchOutlinedIcon/>

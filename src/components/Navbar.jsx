@@ -188,7 +188,9 @@ const Navbar = () => {
         </Left>
         <Right>
         <DesktopMenu>
-        <MenuItem>Home</MenuItem>
+        <MenuItem>
+            <Link to="/" style={{color:"inherit", textDecoration:"none"}}>Home</Link>
+        </MenuItem>
         <MenuItem>Shop</MenuItem>
         <MenuItem>About</MenuItem>
         <MenuItem>Contact</MenuItem>
@@ -206,8 +208,10 @@ const Navbar = () => {
             </MenuIcons>
             <MenuIcons>
                 <Badge color="primary" badgeContent={3}>
+                <Link to="/cart" style={{ color: "inherit" }}> 
                     <ShoppingCartOutlined sx={{transition:"color 0.3s ease, transform 0.2s ease",
-            "&:hover":{color:"blue",transform: "scale(1.1)"}}}/>
+                    "&:hover":{color:"blue",transform: "scale(1.1)"}}}/>
+                </Link>
                 </Badge>
             </MenuIcons>
             </DesktopMenu>
@@ -238,7 +242,9 @@ onBlur={() => setSearchFocused(false)}
 <Divider />
 
 <MobileMenuList>
-<MenuItem $isMobile onClick={() => setOpen(false)}>Home</MenuItem>
+<MenuItem $isMobile onClick={() => setOpen(false)}>
+    <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>Home</Link>
+ </MenuItem>
 <MenuItem $isMobile onClick={() => setOpen(false)}>Shop</MenuItem>
 <MenuItem $isMobile onClick={() => setOpen(false)}>About</MenuItem>
 <MenuItem $isMobile onClick={() => setOpen(false)}>Contact</MenuItem>
@@ -250,10 +256,12 @@ onBlur={() => setSearchFocused(false)}
     <Link to="/signin" style={{ color: "inherit", textDecoration: "none" }}>SignIn</Link>
 </MenuItem>
 <MenuItem $isMobile onClick={() => setOpen(false)}>
+<Link to="/cart" style={{ color: "inherit", textDecoration: "none"}}>
 <Badge>
 <ShoppingCartOutlined />
 </Badge>
 <span style={{ marginLeft: 10 }}>Cart</span>
+</Link>
 </MenuItem>
 </MobileMenuList>
 

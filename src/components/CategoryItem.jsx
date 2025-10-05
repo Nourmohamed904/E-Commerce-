@@ -10,6 +10,10 @@ const Image=styled.img`
 width:100%;
 height: 100%;
 object-fit:cover;
+@media(max-width:550px){
+height:40vh;
+
+}
 `
 const Info=styled.div`
 position:absolute;
