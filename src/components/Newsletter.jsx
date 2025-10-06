@@ -4,7 +4,8 @@ import styled from 'styled-components'
 
 const Container=styled.div`
 height: 50vh;
-background-color:whitesmoke;
+background-color: var(--section-bg);
+color: var(--text-color);
 display: flex;
 align-items:center;
 justify-content:center;
@@ -18,11 +19,14 @@ margin-bottom: 20px;
 const Desc=styled.div`
 font-size: 24px;
 margin-bottom: 20px;
+@media(max-width:550px){
+  text-align:center;
+}
 `
 const InputContainer=styled.div`
 width:50%;
 height: 40px;
-background-color:white;
+background-color:var(--input-bg);
 display: flex;
 justify-content:space-between;
 border:solid 1px lightgray;

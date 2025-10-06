@@ -13,7 +13,8 @@ const Container = styled.div`
 const Arrow = styled.div`
   width: 50px;
   height: 50px;
-  background-color: whitesmoke;
+  background-color: var(--input-bg);
+  color: var(--text-color);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -84,10 +85,11 @@ const Button = styled.button`
 padding: 10px;
 font-size: 20px;
 background-color:transparent;
+color: var(--text-color);
 border-radius:10%;
 cursor:pointer;
 &:hover{
-background-color:lightgrey;
+ background-color: var(--section-bg);
 transform:translateY(-3px)
 }
 `;

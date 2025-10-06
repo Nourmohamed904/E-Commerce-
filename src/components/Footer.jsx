@@ -135,7 +135,7 @@ const Footer = () => {
       <Right>
         <Title>Contact</Title>
         <ContactItem>
-          <LocationOnIcon style={{marginRight:"10px"}}/>333 District-16 Sheikh Zayed
+          <LocationOnIcon style={{marginRight:"10px"}}/>Beverly Hills-16 Sheikh Zayed
         </ContactItem>
         <ContactItem>
           <CallIcon style={{marginRight:"10px"}}/>01111111222

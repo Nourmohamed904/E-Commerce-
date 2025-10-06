@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import Swal from "sweetalert2"
-import { useState,useRef } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 
 const Container=styled.div`
@@ -24,7 +24,7 @@ background-color:white;
 border-radius:12px;
 box-shadow:0 8px 20px rgba(0,0,0,0.1);
 `
-const Form=styled.div`
+const Form=styled.form`
 display: flex;
 flex-wrap:wrap;
 flex-direction:column;
@@ -55,7 +55,7 @@ margin:20px 0px;
 color: #555;
 
 `
-const Button=styled(Link)`
+const Button=styled.button`
 width:40%;
 border:none;
 border-radius: 8px;
@@ -87,13 +87,6 @@ const SignInLink = styled.p`
     }
   }`
 const Register = () => {
-  const nameRef=useRef(null);
-  const lastNameRef=useRef(null);
-  const usernameRef=useRef(null);
-  const emailRef=useRef(null);
-  const passwordRef=useRef(null);
-  const confirmPassRef=useRef(null);
-
   const [formData,setFormData]=useState({
     name:"",
     lastName:"",
@@ -105,67 +98,24 @@ const Register = () => {
 
   const navigate=useNavigate();
 
-  const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const strongPassword=/^.{9,}$/;
-
-  const validateField=(field,value)=>{
-    switch(field){
-      case "name":
-      case "lastName":
-      case "username":
-        if(!value.trim()){
-          Swal.fire("Error",`${field} is required!`,"error");
-          return false;
-        }
-        return true;
-        case "email":
-          if(!emailRegex.test(value)){
-            Swal.fire("Error","Invalid email format!", "error");
-            return false;
-          }
-          return true;
-          case "password":
-            if(!strongPassword.test(value)){
-              Swal.fire("Weak Password","Password must have at least 9 chars","warning");
-              return false;
-          }
-          return true;
-          case "confirmPass":
-            if (value !== formData.password) {
-              Swal.fire("Error", "Passwords do not match!", "error");
-              return false;
-          }     
-          return true;
-          default:
-            return true;
-        }
-      };
-      const handleKeyDown=(e,field,nextRef)=>{
-        if(e.key==="Enter"){
-          e.preventDefault();
-          const isValid=validateField(field,formData[field]);
-          if(isValid){
-            if(nextRef && nextRef.current){
-              nextRef.current.focus();
-            }else{
-              handleSubmit(e);
-            }
-          }
-        }
-      };
-
       const handleSubmit=(e)=>{
         e.preventDefault();
         const{name,lastName,username,email,password,confirmPass}=formData;
 
-        if (
-      !validateField("name", name) ||
-      !validateField("lastName", lastName) ||
-      !validateField("username", username) ||
-      !validateField("email", email) ||
-      !validateField("password", password) ||
-      !validateField("confirmPass", confirmPass)
-    ) { return; }
+        if (!name || !lastName || !username || !email || !password || !confirmPass) {
+      Swal.fire("Error", "Please fill out all fields!", "error");
+      return;
+    }
+
+    if (password !== confirmPass) {
+      Swal.fire("Error", "Passwords do not match!", "error");
+      return;
+    }
+
+    if (password.length < 9) {
+      Swal.fire("Error", "Password must be at least 9 characters!", "error");
+      return;
+    }
 
     Swal.fire("Success", "Account created successfully!", "success").then(() => {
       navigate("/");
@@ -178,52 +128,50 @@ const Register = () => {
         <Title>CREATE AN ACCOUNT</Title>
         <Form onSubmit={handleSubmit}>
           <Input
-          ref={nameRef}
           placeholder="First name"
           value={formData.name}
           onChange={(e)=>setFormData({...formData, name:e.target.value})}
-          onKeyDown={(e)=>handleKeyDown(e,"name",lastNameRef)}
+          required
           />
           <Input
-          ref={lastNameRef} 
           placeholder="last name"
           value={formData.lastName}
           onChange={(e)=>setFormData({...formData,lastName:e.target.value})}
-          onKeyDown={(e)=>handleKeyDown(e,"lastName",usernameRef)}
+          required
           />
           <Input 
-          ref={usernameRef}
           placeholder="username"
           value={formData.username}
           onChange={(e)=>setFormData({...formData,username:e.target.value})}
-          onKeyDown={(e)=>handleKeyDown(e,"username",emailRef)}
+          required
           />
           <Input
-          ref={emailRef}
+          type="email"
           placeholder="Email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          onKeyDown={(e) => handleKeyDown(e, "email", passwordRef)}
+          required
           />
-          <Input type="password" 
-          ref={passwordRef}
+          <Input 
+          type="password" 
           value={formData.password}
           placeholder="password"
           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          onKeyDown={(e) => handleKeyDown(e, "password", confirmPassRef)}
+          required
+          minLength="9"
           />
-          <Input type="password"
-          ref={confirmPassRef}
+          <Input
+          type="password"
           placeholder="confirm password"
           value={formData.confirmPass}
           onChange={(e) =>setFormData({ ...formData, confirmPass: e.target.value })}
-          onKeyDown={(e) => handleKeyDown(e, "confirmPass", null)}
+          required
           />
           <Agreement>
           By creating an account, I consent to the processing of my personal 
           date in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button to="/">CREATE</Button>
+          <Button type="submit">CREATE</Button>
           <SignInLink>
           Already have an account? <Link to="/signin">Sign In</Link>
           </SignInLink>

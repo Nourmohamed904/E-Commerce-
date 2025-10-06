@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { Link,useNavigate } from "react-router-dom"
 import Swal from "sweetalert2"
-import{useState,useRef} from "react"
+import{useState} from "react"
 
 const Container = styled.div`
   width: 100vw;
@@ -52,7 +52,7 @@ const Input = styled.input`
   }
 `
 
-const Button = styled(Link)`
+const Button = styled.button`
   width: 50%;
   padding: 14px;
   text-decoration:none;
@@ -92,8 +92,6 @@ const ExtraLinks = styled.div`
 `
 
 const Login = () => {
-  const emailRef=useRef(null);
-  const passwordRef=useRef(null);
 
   const [formData,SetFormData]=useState({
     email:"",
@@ -103,50 +101,8 @@ const Login = () => {
 
   const navigate=useNavigate();
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  const validateField=(field,value)=>{
-    switch(field){
-      case "email":
-        if(!emailRegex.test(value)){
-          Swal.fire("Error", "Invalid email format!", "error");
-          return false;
-        }
-        return true;
-      case "password":
-        if (value.length < 9) {
-          Swal.fire("Error", "Password must be at least 9 characters!", "error");
-          return false;
-        }
-        return true;
-      default:
-        return true;
-    }
-  };
-
-  const handleKeyDown = (e, field, nextRef) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      const isValid = validateField(field, formData[field]);
-      if (isValid) {
-        if (nextRef && nextRef.current) {
-          nextRef.current.focus();
-        } else {
-          handleSubmit(e);
-        }
-      }
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { email, password } = formData;
-
-    if (
-      !validateField("email", email) ||
-      !validateField("password", password)
-    ) {return;}
-
     Swal.fire("Success", "Logged in successfully!", "success").then(() => {
       navigate("/");
     });
@@ -158,22 +114,20 @@ const Login = () => {
         <Title>SIGN IN</Title>
         <Form onSubmit={handleSubmit}>
           <Input
-            ref={emailRef}
             type="email"
             placeholder="Email"
             value={formData.email}
             onChange={(e) =>SetFormData({ ...formData, email: e.target.value })}
-            onKeyDown={(e) => handleKeyDown(e, "email", passwordRef)}
+            required
           />
           <Input
-            ref={passwordRef}
             type="password"
             placeholder="Password"
             value={formData.password}
             onChange={(e) =>SetFormData({ ...formData, password: e.target.value })}
-            onKeyDown={(e) => handleKeyDown(e, "password", null)}
+            required
           />
-          <Button to="/">LOGIN</Button>
+          <Button type="submit">LOGIN</Button>
           <ExtraLinks>
             <Link to="/register">Create a new account</Link>
           </ExtraLinks>

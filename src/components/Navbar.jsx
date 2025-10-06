@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { useState ,useRef} from 'react';
+import { useState ,useRef,useEffect} from 'react';
 import styled from 'styled-components'
 import SearchIcon from '@mui/icons-material/Search';
 import Badge from '@mui/material/Badge';
@@ -149,6 +149,7 @@ flex-direction: column;
 gap: 10px;
 margin-top: 6px;
 color:black;
+
 `;
 
 const Divider = styled.hr`
@@ -157,11 +158,29 @@ height: 1px;
 background: #c8c1c1aa;
 margin: 8px 0;
 `;
-const Navbar = () => {
+const Navbar = ({onSearchChange}) => {  
+    useEffect(() => {
+    const icon = document.getElementById("icon");
+
+    if (icon) {
+    icon.onclick = function () {
+        document.body.classList.toggle("dark-theme");
+
+        if (document.body.classList.contains("dark-theme")) {
+            icon.src = "sun.png"; 
+        } else {
+            icon.src = "moon.png"; 
+        }
+        };
+    }
+}, []);
+
     const [open, setOpen] = useState(false);
     const [searchFocused, setSearchFocused] = useState(false);
+    const [searchTerm,setSearchTerm]=useState(""); //controls only the text box (what the user sees as they type).
     const desktopinputRef=useRef(null);
     const asideinputRef=useRef(null);
+
     const handleIconClick=(target)=>{
         if(target==="desktop" && desktopinputRef.current){
             desktopinputRef.current.focus();
@@ -170,16 +189,25 @@ const Navbar = () => {
             asideinputRef.current.focus();
         }
     }
+
+    const handleSearchInput=(e)=>{  
+        const value = e.target.value;
+        setSearchTerm(value);
+        if (onSearchChange) onSearchChange(value);  //notifies the parent (Home) that something changed
+};
+
     return (
     <Container>
     <Wrapper>
         <Left>
         <Logo>Spark</Logo>
-        <SearchContainer 
+            <SearchContainer 
         $focused={searchFocused}>
         <Input
             ref={desktopinputRef}
             placeholder='Search for products...'
+            value={searchTerm}
+            onChange={handleSearchInput}
             onFocus={()=>setSearchFocused(true)}
             onBlur={()=>setSearchFocused(false)}/>
         <SearchIcon  style={{ color:"black" , cursor: "pointer" }} 
@@ -191,9 +219,15 @@ const Navbar = () => {
         <MenuItem>
             <Link to="/" style={{color:"inherit", textDecoration:"none"}}>Home</Link>
         </MenuItem>
-        <MenuItem>Shop</MenuItem>
-        <MenuItem>About</MenuItem>
-        <MenuItem>Contact</MenuItem>
+        <MenuItem>
+            <Link to="/shop" style={{color:"inherit", textDecoration:"none"}}>Shop</Link>
+        </MenuItem>
+        <MenuItem>
+            <Link to="/about" style={{ color: "inherit", textDecoration: "none" }}>About</Link>
+        </MenuItem>
+        <MenuItem>
+            <Link to="/cont" style={{ color: "inherit", textDecoration: "none" }}>Contact</Link>
+        </MenuItem>
             <MenuItem>
                 <Link to="/register" style={{color:"inherit", textDecoration:"none"}}>REGISTER</Link>
             </MenuItem>
@@ -214,6 +248,7 @@ const Navbar = () => {
                 </Link>
                 </Badge>
             </MenuIcons>
+            <img src="moon.png" id="icon" style={{cursor:"pointer",width:"25px" ,marginLeft:"25px"}}></img>
             </DesktopMenu>
             <MobileIcon onClick={() => setOpen(true)}>
             <MenuIcon />
@@ -232,6 +267,8 @@ const Navbar = () => {
 <Input
 ref={asideinputRef}
 placeholder="Search for products"
+value={searchTerm}
+onChange={handleSearchInput}
 onFocus={() => setSearchFocused(true)}
 onBlur={() => setSearchFocused(false)}
 />
@@ -244,10 +281,16 @@ onBlur={() => setSearchFocused(false)}
 <MobileMenuList>
 <MenuItem $isMobile onClick={() => setOpen(false)}>
     <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>Home</Link>
- </MenuItem>
-<MenuItem $isMobile onClick={() => setOpen(false)}>Shop</MenuItem>
-<MenuItem $isMobile onClick={() => setOpen(false)}>About</MenuItem>
-<MenuItem $isMobile onClick={() => setOpen(false)}>Contact</MenuItem>
+</MenuItem>
+<MenuItem $isMobile onClick={() => setOpen(false)}>
+    <Link to="/shop" style={{ color: "inherit", textDecoration: "none" }}>Shop</Link>
+</MenuItem>
+<MenuItem $isMobile onClick={() => setOpen(false)}>
+    <Link to="/about" style={{ color: "inherit", textDecoration: "none" }}>About</Link>
+</MenuItem>
+<MenuItem $isMobile onClick={() => setOpen(false)}>
+    <Link to="/cont" style={{ color: "inherit", textDecoration: "none" }}>Contact</Link>
+</MenuItem>
 <Divider />
 <MenuItem $isMobile onClick={() => setOpen(false)}>
     <Link to="/register" style={{ color: "inherit", textDecoration: "none" }}>Register</Link>

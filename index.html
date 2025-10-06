@@ -8,12 +8,29 @@
     rel="stylesheet">
     <style>
       *{
-        /* background-color: beige; */
         margin:0;
         font-family: "Playfair Display", serif;
       }
+      :root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --section-bg: #f5f5f5;
+    --input-bg: #ffffff;
+  }
+
+  .dark-theme {
+    --bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --section-bg: #1e1e1e;
+    --input-bg: #2a2a2a;
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
     </style>
-    <title>Vite + React</title>
+    <title>SPARK</title>
   </head>
   <body>
     <div id="root"></div>
