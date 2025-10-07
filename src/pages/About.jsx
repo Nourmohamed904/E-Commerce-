@@ -111,7 +111,7 @@ const IconCard = styled.div`
 `;
 
 const IconWrapper = styled.div`
-  background: #e63946;
+  background: #563cbeff;
   color: white;
   padding: 15px;
   border-radius: 50%;
@@ -174,7 +174,7 @@ const About = () => {
 
           <IconCard delay={0.4}>
             <IconWrapper><LocalShippingIcon /></IconWrapper>
-            <IconTitle>Fast & Secure Delivery</IconTitle>
+            <IconTitle>Fast Secure Delivery</IconTitle>
             <IconDesc>Enjoy quick shipping and safe, tracked deliveries.</IconDesc>
           </IconCard>
 

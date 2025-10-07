@@ -8,6 +8,7 @@ import ShoppingCartOutlined from '@mui/icons-material/ShoppingCartOutlined';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import PersonOutline from '@mui/icons-material/PersonOutline';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useCart } from "../CartContext";
 
 const Container=styled.div`
 height:60px;
@@ -159,6 +160,9 @@ background: #c8c1c1aa;
 margin: 8px 0;
 `;
 const Navbar = ({onSearchChange}) => {  
+    const { cart } = useCart(); 
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
     useEffect(() => {
     const icon = document.getElementById("icon");
 
@@ -167,9 +171,9 @@ const Navbar = ({onSearchChange}) => {
         document.body.classList.toggle("dark-theme");
 
         if (document.body.classList.contains("dark-theme")) {
-            icon.src = "sun.png"; 
+            icon.src = "../../public/sun.png"; 
         } else {
-            icon.src = "moon.png"; 
+            icon.src = "../../public/moon.png"; 
         }
         };
     }
@@ -235,20 +239,20 @@ const Navbar = ({onSearchChange}) => {
                 <Link to="/signin" style={{ color: "inherit", textDecoration: "none" }}>SIGNIN</Link>
             </MenuItem>
             <MenuIcons>
-            <Badge color="error" badgeContent={4}>
+            <Badge color="error" badgeContent={0} showZero>
             <FavoriteBorder sx={{transition:"color 0.3s ease, transform 0.2s ease",
             "&:hover":{color:"red",transform: "scale(1.1)"}}}/>
             </Badge>
             </MenuIcons>
             <MenuIcons>
-                <Badge color="primary" badgeContent={3}>
+                <Badge color="primary" badgeContent={totalItems} showZero>
                 <Link to="/cart" style={{ color: "inherit" }}> 
                     <ShoppingCartOutlined sx={{transition:"color 0.3s ease, transform 0.2s ease",
                     "&:hover":{color:"blue",transform: "scale(1.1)"}}}/>
                 </Link>
                 </Badge>
             </MenuIcons>
-            <img src="moon.png" id="icon" style={{cursor:"pointer",width:"25px" ,marginLeft:"25px"}}></img>
+            <img src="../../public/moon.png" id="icon" style={{cursor:"pointer",width:"25px" ,marginLeft:"25px"}}></img>
             </DesktopMenu>
             <MobileIcon onClick={() => setOpen(true)}>
             <MenuIcon />

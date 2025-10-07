@@ -149,8 +149,8 @@ transition: all 0.3s ease;
   }
 `;
 const Cart = () => {
-  const {cart}=useCart();
-  const Subtotal=cart.reduce((total,item)=>total+item.price,0);
+  const {cart, increaseQty, decreaseQty }=useCart();
+  const Subtotal=cart.reduce((total,item)=>total+item.price*item.quantity,0);
   const shipping=5;
   const Total=Subtotal+shipping;
   return (
@@ -191,11 +191,11 @@ const Cart = () => {
               </ProductDetail>
               <PriceDetail>
                 <ProductAmountContainer>
-                  <Add/>
-                  <ProductAmount>1</ProductAmount>
-                  <Remove/>
+                <Add style={{ cursor: "pointer" }} onClick={() => increaseQty(item.id)} />
+                <ProductAmount>{item.quantity}</ProductAmount>
+                <Remove style={{ cursor: "pointer" }} onClick={() => decreaseQty(item.id)} />
                 </ProductAmountContainer>
-                <ProductPrice>${item.price}</ProductPrice>
+                <ProductPrice>${(item.price * item.quantity).toFixed(2)}</ProductPrice>
               </PriceDetail>
             </Product>
             {index!==cart.length-1 && (

@@ -6,6 +6,9 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
+import { useCart } from "../CartContext";
+import { useNavigate } from "react-router-dom";
+
 
 const Container = styled.div``;
 
@@ -151,6 +154,9 @@ transition: all 0.3s ease;
 const Product = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const { addToCart } = useCart();
+const navigate = useNavigate();
+
 
   useEffect(() => {
     fetch(`https://fakestoreapi.com/products/${id}`)
@@ -197,7 +203,10 @@ const Product = () => {
             <Amount>1</Amount>
             <AddIcon/>
             </AmountContainer>
-              <Button>ADD TO CART</Button>
+            <Button onClick={() => { addToCart(product); navigate("/cart"); }}>
+                ADD TO CART
+            </Button>
+
           </AddContainer>
         </InfoContainer>
       </Wrapper>
