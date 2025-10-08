@@ -252,7 +252,7 @@ const Navbar = ({onSearchChange}) => {
                 </Link>
                 </Badge>
             </MenuIcons>
-            <img src="../../public/moon.png" id="icon" style={{cursor:"pointer",width:"25px" ,marginLeft:"25px"}}></img>
+            <img src="moon.png" id="icon" style={{cursor:"pointer",width:"25px" ,marginLeft:"25px"}}></img>
             </DesktopMenu>
             <MobileIcon onClick={() => setOpen(true)}>
             <MenuIcon />
