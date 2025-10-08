@@ -171,9 +171,9 @@ const Navbar = ({onSearchChange}) => {
         document.body.classList.toggle("dark-theme");
 
         if (document.body.classList.contains("dark-theme")) {
-            icon.src = "../../public/sun.png"; 
+            icon.src = "sun.png"; 
         } else {
-            icon.src = "../../public/moon.png"; 
+            icon.src = "moon.png"; 
         }
         };
     }
