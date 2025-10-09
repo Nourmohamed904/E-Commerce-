@@ -25,4 +25,5 @@ It also demonstrates modern front-end development practices and the use of React
 - Routing between pages 
 - Responsive design for desktop, tablet, and mobile views
 - Clean and consistent UI using Styled-Components
+- Search that directs to products part and filter them
 
