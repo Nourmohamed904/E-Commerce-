@@ -1,12 +1,28 @@
-# React + Vite
+# E-Commerce Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is my first complete application built with **React.js**. It represents a practical learning experience in component-based architecture, state management, responsive design, and API integration.
 
-Currently, two official plugins are available:
+##  Live Demo
+ [View the Live Website](https://nourmohamed904.github.io/E-Commerce-/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+##  Overview
+The application simulates an online shopping experience, allowing users to browse products, view product details, and manage their shopping cart.  
+It also demonstrates modern front-end development practices and the use of React libraries for UI and state handling.
 
-## Expanding the ESLint configuration
+##  Built With
+- **React.js** – Component-based front-end library  
+- **React Router DOM** – Page routing and navigation  
+- **Context API** – Global state management for the shopping cart  
+- **Styled-Components** – Component-level styling  
+- **Material UI Icons** – Visual icons and user interface elements  
+- **External API** – For fetching product data  
+- **JavaScript (ES6+)**, **HTML5**, **CSS3**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+##  Features
+- Reusable and modular React components
+- Add-to-cart functionality using the Context API
+- Dynamic cart item count in the navigation bar
+- Routing between pages 
+- Responsive design for desktop, tablet, and mobile views
+- Clean and consistent UI using Styled-Components
+
